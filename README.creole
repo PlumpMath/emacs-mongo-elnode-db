@@ -1,0 +1,2 @@
+This is an adapter to elnode-db for the mongo-el library.
+
