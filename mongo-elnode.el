@@ -3,6 +3,10 @@
 ;; Copyright (C) 2012  Nic Ferrier
 
 ;; Author: Nic Ferrier <nferrier@ferrier.me.uk>
+;; Maintainer: Nic Ferrier <nferrier@ferrier.me.uk>
+;; Created: 13th August 2012
+;; Package-Requires: ((mongo "0.2"))
+;; Version: 0.0.1
 ;; Keywords: hypermedia, data
 
 ;; This program is free software; you can redistribute it and/or modify
