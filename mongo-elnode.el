@@ -96,14 +96,65 @@ looks up on the id."
 Optionally only match QUERY."
   (mapcar func (elnode-db-mongo--do-query query db)))
 
+
+;;; Tests
+
+(require 'ert)
+
 (ert-deftest elnode-db-mongo-marmalade-get ()
+  "Test against Marmalade's Mongo."
   (let ((mdb
          (elnode-db-make
           '(mongo
             :host "localhost"
             :collection "marmalade.packages"))))
     (should
-     (elnode-db-mongo-get "4f65e980cd6108da68000252" mdb))))
+     (equal
+      (cdr
+       (assoc
+        "_name"
+        (elnode-db-mongo-get "4f65e980cd6108da68000252" mdb)))
+      "fakir"))
+    ))
+
+(ert-deftest elnode-db-mongo-marmalade-map ()
+  "Test against Marmalade's Mongo."
+  (let ((mdb
+         (elnode-db-make
+          '(mongo
+            :host "localhost"
+            :collection "marmalade.packages"))))
+    ;; Single value query, this should come first really.
+    (should
+     (equal
+      (cdr
+       (assoc
+        "_name"
+        (car
+         (elnode-db-mongo-map
+          'identity
+          mdb
+          (list (cons "name" "fakir"))))))
+      "fakir"))
+    ;; Multiple values
+    (flet ((collector (res)
+             (cdr (assoc "_name" res))))
+      (should
+       (equal
+        (elnode-db-mongo-map
+         'collector
+         mdb
+         (list ; the query
+          (cons
+           "_latestVersion.headers.author"
+           "Nic Ferrier <nferrier@ferrier.me.uk>")))
+        (list "org-email"
+              "elnode"
+              "creole"
+              "fakir"
+              "phantomjs"
+              "package-store"
+              "web"))))))
 
 ;; Put the mongo db into the list of Elnode dbs
 (puthash 'mongo 'elnode-db-mongo elnode-db--types)
