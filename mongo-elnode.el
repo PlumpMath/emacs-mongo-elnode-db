@@ -5,7 +5,7 @@
 ;; Author: Nic Ferrier <nferrier@ferrier.me.uk>
 ;; Maintainer: Nic Ferrier <nferrier@ferrier.me.uk>
 ;; Created: 13th August 2012
-;; Package-Requires: ((mongo "0.2"))
+;; Package-Requires: ((mongo "0.2")(elnode "0.9.9")
 ;; Version: 0.0.1
 ;; Keywords: hypermedia, data
 
@@ -114,8 +114,7 @@ Optionally only match QUERY."
        (assoc
         "_name"
         (elnode-db-mongo-get "4f65e980cd6108da68000252" mdb)))
-      "fakir"))
-    ))
+      "fakir"))))
 
 (ert-deftest elnode-db-mongo-marmalade-map ()
   "Test against Marmalade's Mongo."
@@ -137,24 +136,24 @@ Optionally only match QUERY."
           (list (cons "name" "fakir"))))))
       "fakir"))
     ;; Multiple values
-    (flet ((collector (res)
-             (cdr (assoc "_name" res))))
-      (should
-       (equal
+    (should
+     (equal
+      (flet ((collector (res)
+               (cdr (assoc "_name" res))))
         (elnode-db-mongo-map
          'collector
          mdb
          (list ; the query
           (cons
            "_latestVersion.headers.author"
-           "Nic Ferrier <nferrier@ferrier.me.uk>")))
-        (list "org-email"
-              "elnode"
-              "creole"
-              "fakir"
-              "phantomjs"
-              "package-store"
-              "web"))))))
+             "Nic Ferrier <nferrier@ferrier.me.uk>"))))
+      (list "org-email"
+            "elnode"
+            "creole"
+            "fakir"
+            "phantomjs"
+            "package-store"
+            "web")))))
 
 ;; Put the mongo db into the list of Elnode dbs
 (puthash 'mongo 'elnode-db-mongo elnode-db--types)
