@@ -5,8 +5,8 @@
 ;; Author: Nic Ferrier <nferrier@ferrier.me.uk>
 ;; Maintainer: Nic Ferrier <nferrier@ferrier.me.uk>
 ;; Created: 13th August 2012
-;; Package-Requires: ((mongo "0.4")(elnode "0.9.9"))
-;; Version: 0.0.4
+;; Package-Requires: ((mongo "0.5")(elnode "0.9.9"))
+;; Version: 0.5.0
 ;; Keywords: hypermedia, data
 
 ;; This program is free software; you can redistribute it and/or modify
