@@ -99,6 +99,15 @@ Optionally only match QUERY."
 
 ;;; Tests
 
+;; These tests require the mongo db to be present with marmalade's db
+;; imported.
+;;
+;; Yes. That is stupid. Because I am not releasing that db (for
+;; obvious privacy reasons).
+;;
+;; To improve this we need a demo mongodb. I haven't got time to make
+;; one right now.
+
 (require 'ert)
 
 (ert-deftest elnode-db-mongo-marmalade-get ()
@@ -123,7 +132,7 @@ Optionally only match QUERY."
           '(mongo
             :host "localhost"
             :collection "marmalade.packages"))))
-    ;; Single value query, this should come first really.
+    ;; Single value, tight query
     (should
      (equal
       (cdr
@@ -135,7 +144,7 @@ Optionally only match QUERY."
           mdb
           (list (cons "name" "fakir"))))))
       "fakir"))
-    ;; Multiple values
+    ;; Multiple values with a many rows query
     (should
      (equal
       (flet ((collector (res)
